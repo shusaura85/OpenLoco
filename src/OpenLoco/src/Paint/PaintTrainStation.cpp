@@ -134,8 +134,7 @@ namespace OpenLoco::Paint
         World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
         session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE0), heightOffset, bbOffset, bbSize);
     }
-	
-	
+
     // 0x00411B09
     static void paintTrainStationStyle0DiagonalTrack1NE(PaintSession& session, const World::StationElement& elStation, const ImageId imageBase, const ImageId imageTranslucentBase)
     {

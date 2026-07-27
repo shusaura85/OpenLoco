@@ -259,6 +259,7 @@ namespace OpenLoco::Paint
                     break;
                 case 1:
                 {
+					// paintTrainStationStyle0DiagonalTrack1NE
                     const World::Pos3 heightOffset(0, 0, elStation.baseHeight());
                     // Platform
                     World::Pos3 platformBbOffset = World::Pos3{ 6, 6, 8 } + heightOffset;
@@ -267,7 +268,7 @@ namespace OpenLoco::Paint
 
                     // Cargo (back)
                     paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
-                    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                //    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
 
                     // Cargo (front)
                     paintStationCargo(session, elStation, cargoFlags[2], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
@@ -281,7 +282,13 @@ namespace OpenLoco::Paint
                     break;
                 }
                 case 2:
-                    paintTrainStationStyle0DiagonalTrack2NE(session, elStation, imageBase, imageTranslucentBase);
+                  //  paintTrainStationStyle0DiagonalTrack2NE(session, elStation, imageBase, imageTranslucentBase);
+                    const World::Pos3 heightOffset(0, 0, elStation.baseHeight());
+                    World::Pos3 bbOffset = World::Pos3{ 2, 2, 8 } + heightOffset;
+                    World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
+                    session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE3), heightOffset, bbOffset, bbSize);
+
+                    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), bbOffset, bbSize);
                     break;
                 case 3:
                     paintTrainStationStyle0DiagonalTrack3NE(session, elStation, imageBase, imageTranslucentBase);

@@ -251,8 +251,8 @@ namespace OpenLoco::Paint
                     // paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
 
                     // Cargo (front)
-                    paintStationCargo(session, elStation, cargoFlags[2], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
-                    paintStationCargo(session, elStation, cargoFlags[3], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    paintStationCargo(session, elStation, cargoFlags[2], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), bbOffset, bbSize);
+                    paintStationCargo(session, elStation, cargoFlags[3], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), bbOffset, bbSize);
 
                     session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalSE1), heightOffset, bbOffset, bbSize);
                     break;
@@ -263,7 +263,7 @@ namespace OpenLoco::Paint
                     World::Pos3 bbOffset = World::Pos3{ 34, 28, 8 } + heightOffset;
                     World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
 
-                    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), bbOffset, bbSize);
 
                     session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalSE2), heightOffset, bbOffset, bbSize);
                     break;
@@ -274,7 +274,7 @@ namespace OpenLoco::Paint
                     World::Pos3 bbOffset = World::Pos3{ 0, 0, 26 } + heightOffset;
                     World::Pos3 bbSize = World::Pos3{ 30, 30, 1 };
 
-                    paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), bbOffset, bbSize);
 
                     session.addToPlotListTrackRoadAddition(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalSE3), 1, heightOffset, bbOffset, bbSize);
                     session.attachToPrevious(imageTranslucentBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalCanopyTranslucentSE3), { 0, 0 });
@@ -338,7 +338,7 @@ namespace OpenLoco::Paint
                     World::Pos3 bbOffset = World::Pos3{ 2, 2, 8 } + heightOffset;
                     World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
 
-                    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), bbOffset, bbSize);
 
                     session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE3), heightOffset, bbOffset, bbSize);
                     break;

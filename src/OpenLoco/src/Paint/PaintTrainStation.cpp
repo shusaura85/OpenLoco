@@ -292,7 +292,7 @@ namespace OpenLoco::Paint
                     World::Pos3 bbOffset = World::Pos3{ 2, 2, 8 } + heightOffset;
                     World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
 
-                    paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), bbOffset, bbSize);
 
                     session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE0), heightOffset, bbOffset, bbSize);
 

@@ -135,25 +135,6 @@ namespace OpenLoco::Paint
         session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE0), heightOffset, bbOffset, bbSize);
     }
 
-    // 0x00411B09
-    static void paintTrainStationStyle0DiagonalTrack1NE(PaintSession& session, const World::StationElement& elStation, const ImageId imageBase, const ImageId imageTranslucentBase)
-    {
-        const World::Pos3 heightOffset(0, 0, elStation.baseHeight());
-        // Platform
-        {
-            World::Pos3 bbOffset = World::Pos3{ 6, 6, 8 } + heightOffset;
-            World::Pos3 bbSize = World::Pos3{ 2, 2, 11 };
-            session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE1), heightOffset, bbOffset, bbSize);
-        }
-        // Canopy
-        {
-            World::Pos3 bbOffset = World::Pos3{ 6, 6, 26 } + heightOffset;
-            World::Pos3 bbSize = World::Pos3{ 2, 2, 1 };
-            session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalCanopyNE1), heightOffset, bbOffset, bbSize);
-            session.attachToPrevious(imageTranslucentBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalCanopyTranslucentNE1), { 0, 0 });
-        }
-    }
-
     // 0x00411BA6
     static void paintTrainStationStyle0DiagonalTrack2NE([[maybe_unused]] PaintSession& session, [[maybe_unused]] const World::StationElement& elStation, [[maybe_unused]] const ImageId imageBase, [[maybe_unused]] const ImageId imageTranslucentBase)
     {
@@ -241,8 +222,41 @@ namespace OpenLoco::Paint
                     paintTrainStationStyle0DiagonalTrack0NE(session, elStation, imageBase, imageTranslucentBase);
                     break;
                 case 1:
-                    paintTrainStationStyle0DiagonalTrack1NE(session, elStation, imageBase, imageTranslucentBase);
+                {
+                    // 0x00411B09
+                    // Integrated from the former paintTrainStationStyle0DiagonalTrack1NE so cargo can be
+                    // painted after the platform but before the canopy.
+                    const auto* stationObj = ObjectManager::get<TrainStationObject>(elStation.objectId());
+                    // This was part of paintStationCargo
+                    const auto unkPosHash = (session.getUnkPosition().x + session.getUnkPosition().y) / 32;
+                    const auto cargoOffsets = stationObj->getCargoDiagonalOffsets(rotation, unkPosHash & 0x3);
+
+                    // Same segment flag table as paintTrainStationStyle0StraightTrack
+                    constexpr std::array<std::array<uint8_t, 4>, 4> cargoRotationFlags = {
+                        std::array<uint8_t, 4>{ 0x9, 0x5, 0x6, 0xA },
+                        std::array<uint8_t, 4>{ 0x9, 0x5, 0x6, 0xA },
+                        std::array<uint8_t, 4>{ 0xA, 0x6, 0x5, 0x9 },
+                        std::array<uint8_t, 4>{ 0xA, 0x6, 0x5, 0x9 },
+                    };
+                    const auto& cargoFlags = cargoRotationFlags[rotation];
+
+                    const World::Pos3 heightOffset(0, 0, elStation.baseHeight());
+                    // Platform
+                    World::Pos3 platformBbOffset = World::Pos3{ 6, 6, 8 } + heightOffset;
+                    World::Pos3 platformBbSize = World::Pos3{ 2, 2, 11 };
+                    session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE1), heightOffset, platformBbOffset, platformBbSize);
+
+                    // Cargo
+                    paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+
+                    // Canopy
+                    World::Pos3 canopyBbOffset = World::Pos3{ 6, 6, 26 } + heightOffset;
+                    World::Pos3 canopyBbSize = World::Pos3{ 2, 2, 1 };
+                    session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalCanopyNE1), heightOffset, canopyBbOffset, canopyBbSize);
+                    session.attachToPrevious(imageTranslucentBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalCanopyTranslucentNE1), { 0, 0 });
                     break;
+                }
                 case 2:
                     paintTrainStationStyle0DiagonalTrack2NE(session, elStation, imageBase, imageTranslucentBase);
                     break;

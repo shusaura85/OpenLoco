@@ -46,12 +46,12 @@ namespace OpenLoco
         uint8_t var_0B;
         TrainStationFlags flags; // 0x0C
         uint8_t var_0D;
-        uint32_t image;                  // 0x0E
-        uint32_t imageOffsets[4];        // 0x12 "sequenceIndexImageOffsets"
-        uint8_t numCompatible;           // 0x22
-        uint8_t mods[7];                 // 0x23
-        uint16_t designedYear;           // 0x2A
-        uint16_t obsoleteYear;           // 0x2C
+        uint32_t image;                          // 0x0E
+        uint32_t imageOffsets[4];                // 0x12 "sequenceIndexImageOffsets"
+        uint8_t numCompatible;                   // 0x22
+        uint8_t mods[7];                         // 0x23
+        uint16_t designedYear;                   // 0x2A
+        uint16_t obsoleteYear;                   // 0x2C
         uint32_t cargoOffsetBytes[4][4];         // 0x2E
         uint32_t cargoDiagonalOffsetBytes[4][4]; // 0x6E
 

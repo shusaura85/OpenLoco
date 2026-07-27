@@ -52,8 +52,8 @@ namespace OpenLoco
         uint8_t mods[7];                 // 0x23
         uint16_t designedYear;           // 0x2A
         uint16_t obsoleteYear;           // 0x2C
-        uint32_t cargoOffsetBytes[4][4]; // 0x2E
-        uint32_t var_6E[16];
+        uint32_t cargoOffsetBytes[4][4];         // 0x2E
+        uint32_t cargoDiagonalOffsetBytes[4][4]; // 0x6E
 
         void drawPreviewImage(Gfx::DrawingContext& drawingCtx, const int16_t x, const int16_t y) const;
         void drawDescription(Gfx::DrawingContext& drawingCtx, const int16_t x, const int16_t y, [[maybe_unused]] const int16_t width) const;
@@ -61,6 +61,7 @@ namespace OpenLoco
         void load(const LoadedObjectHandle& handle, std::span<const std::byte> data, ObjectManager::DependentObjects*);
         void unload();
         sfl::static_vector<CargoOffset, Limits::kMaxStationCargoDensity> getCargoOffsets(const uint8_t rotation, const uint8_t nibble) const;
+        sfl::static_vector<CargoOffset, Limits::kMaxStationCargoDensity> getCargoDiagonalOffsets(const uint8_t rotation, const uint8_t nibble) const;
         constexpr bool hasFlags(TrainStationFlags flagsToTest) const
         {
             return (flags & flagsToTest) != TrainStationFlags::none;

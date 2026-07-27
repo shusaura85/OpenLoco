@@ -108,21 +108,23 @@ namespace OpenLoco
             }
         }
 
-        for (size_t i = 0; i < sizeof(var_6E) / sizeof(var_6E[0]); ++i)
+        for (size_t i = 0; i < 4; ++i)
         {
-            var_6E[i] = static_cast<uint32_t>(remainingData.data() - data.data());
-
-            auto* bytes = reinterpret_cast<const int8_t*>(remainingData.data());
-            bytes++; // z?
-            auto length = 1;
-            while (*bytes != -1)
+            for (size_t j = 0; j < 4; ++j)
             {
-                length += 4; // x, y, x, y
-                bytes += 4;
-            }
-            length += 4;
+                cargoDiagonalOffsetBytes[i][j] = static_cast<uint32_t>(remainingData.data() - data.data());
 
-            remainingData = remainingData.subspan(length);
+                auto* bytes = reinterpret_cast<const int8_t*>(remainingData.data());
+                bytes++; // z?
+                auto length = 1;
+                while (*bytes != -1)
+                {
+                    length += 4; // x, y, x, y
+                    bytes += 4;
+                }
+                length += 4;
+                remainingData = remainingData.subspan(length);
+            }
         }
 
         auto imgRes = ObjectManager::loadImageTable(remainingData);
@@ -145,7 +147,7 @@ namespace OpenLoco
         std::fill(std::begin(imageOffsets), std::end(imageOffsets), 0);
         std::fill(std::begin(mods), std::end(mods), 0);
         std::fill(&cargoOffsetBytes[0][0], &cargoOffsetBytes[0][0] + sizeof(cargoOffsetBytes) / sizeof(uint32_t), 0);
-        std::fill(std::begin(var_6E), std::end(var_6E), 0);
+        std::fill(&cargoDiagonalOffsetBytes[0][0], &cargoDiagonalOffsetBytes[0][0] + sizeof(cargoDiagonalOffsetBytes) / sizeof(uint32_t), 0);
     }
 
     sfl::static_vector<TrainStationObject::CargoOffset, Limits::kMaxStationCargoDensity> TrainStationObject::getCargoOffsets(const uint8_t rotation, const uint8_t nibble) const
@@ -153,6 +155,39 @@ namespace OpenLoco
         assert(rotation < 4 && nibble < 4);
 
         const auto* bytes = reinterpret_cast<const std::byte*>(this) + cargoOffsetBytes[rotation][nibble];
+        uint8_t z = *reinterpret_cast<const uint8_t*>(bytes);
+        bytes++;
+        sfl::static_vector<CargoOffset, Limits::kMaxStationCargoDensity> result;
+        while (*bytes != static_cast<std::byte>(0xFF))
+        {
+            result.push_back({
+                World::Pos3{
+                    *reinterpret_cast<const int8_t*>(bytes),
+                    *reinterpret_cast<const int8_t*>(bytes + 1),
+                    z,
+                },
+                World::Pos3{
+                    *reinterpret_cast<const int8_t*>(bytes + 2),
+                    *reinterpret_cast<const int8_t*>(bytes + 3),
+                    z,
+                },
+            });
+            bytes += 4;
+
+            // The game can't handle anything larger than 16 so we've made the static vector 16 max
+            if (result.size() == result.max_size())
+            {
+                break;
+            }
+        }
+        return result;
+    }
+
+    sfl::static_vector<TrainStationObject::CargoOffset, Limits::kMaxStationCargoDensity> TrainStationObject::getCargoDiagonalOffsets(const uint8_t rotation, const uint8_t nibble) const
+    {
+        assert(rotation < 4 && nibble < 4);
+
+        const auto* bytes = reinterpret_cast<const std::byte*>(this) + cargoDiagonalOffsetBytes[rotation][nibble];
         uint8_t z = *reinterpret_cast<const uint8_t*>(bytes);
         bytes++;
         sfl::static_vector<CargoOffset, Limits::kMaxStationCargoDensity> result;

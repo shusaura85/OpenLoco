@@ -229,7 +229,10 @@ namespace OpenLoco::Paint
             std::array<uint8_t, 4>{ 0xA, 0x6, 0x5, 0x9 },
             std::array<uint8_t, 4>{ 0xA, 0x6, 0x5, 0x9 },
         };
+
         const auto& cargoFlags = cargoRotationFlags[rotation];
+
+        const World::Pos3 heightOffset(0, 0, elStation.baseHeight());
 
         if (rotation & (1 << 0))
         {
@@ -258,8 +261,7 @@ namespace OpenLoco::Paint
                     break;
                 case 1:
                 {
-                    // paintTrainStationStyle0DiagonalTrack1NE
-                    const World::Pos3 heightOffset(0, 0, elStation.baseHeight());
+                    // paintTrainStationStyle0DiagonalTrack1NE(session, elStation, imageBase, imageTranslucentBase);
                     // Platform
                     World::Pos3 platformBbOffset = World::Pos3{ 6, 6, 8 } + heightOffset;
                     World::Pos3 platformBbSize = World::Pos3{ 2, 2, 11 };
@@ -282,7 +284,6 @@ namespace OpenLoco::Paint
                 }
                 case 2:
                     // paintTrainStationStyle0DiagonalTrack2NE(session, elStation, imageBase, imageTranslucentBase);
-                    const World::Pos3 heightOffset(0, 0, elStation.baseHeight());
                     World::Pos3 bbOffset = World::Pos3{ 2, 2, 8 } + heightOffset;
                     World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
                     session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE3), heightOffset, bbOffset, bbSize);

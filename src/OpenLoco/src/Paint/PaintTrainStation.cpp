@@ -283,6 +283,7 @@ namespace OpenLoco::Paint
                     break;
                 }
                 case 2:
+                {
                     // paintTrainStationStyle0DiagonalTrack2NE(session, elStation, imageBase, imageTranslucentBase);
                     World::Pos3 bbOffset = World::Pos3{ 2, 2, 8 } + heightOffset;
                     World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
@@ -290,6 +291,7 @@ namespace OpenLoco::Paint
 
                     paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), bbOffset, bbSize);
                     break;
+                }
                 case 3:
                     paintTrainStationStyle0DiagonalTrack3NE(session, elStation, imageBase, imageTranslucentBase);
                     break;

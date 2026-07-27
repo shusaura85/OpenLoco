@@ -242,14 +242,44 @@ namespace OpenLoco::Paint
                     paintTrainStationStyle0DiagonalTrack0SE(session, elStation, imageBase, imageTranslucentBase);
                     break;
                 case 1:
-                    paintTrainStationStyle0DiagonalTrack1SE(session, elStation, imageBase, imageTranslucentBase);
+                {
+                    //paintTrainStationStyle0DiagonalTrack1SE(session, elStation, imageBase, imageTranslucentBase);
+                    World::Pos3 bbOffset = World::Pos3{ 28, 34, 8 } + heightOffset;
+                    World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
+
+                    //paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    //paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+
+                    // Cargo (front)
+                    paintStationCargo(session, elStation, cargoFlags[2], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    paintStationCargo(session, elStation, cargoFlags[3], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+
+                    session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalSE1), heightOffset, bbOffset, bbSize);
                     break;
+                }
                 case 2:
-                    paintTrainStationStyle0DiagonalTrack2SE(session, elStation, imageBase, imageTranslucentBase);
+                {
+                    //paintTrainStationStyle0DiagonalTrack2SE(session, elStation, imageBase, imageTranslucentBase);
+                    World::Pos3 bbOffset = World::Pos3{ 34, 28, 8 } + heightOffset;
+                    World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
+
+                    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+
+                    session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalSE2), heightOffset, bbOffset, bbSize);
                     break;
+                }
                 case 3:
-                    paintTrainStationStyle0DiagonalTrack3SE(session, elStation, imageBase, imageTranslucentBase);
+                {
+                    //paintTrainStationStyle0DiagonalTrack3SE(session, elStation, imageBase, imageTranslucentBase);
+                    World::Pos3 bbOffset = World::Pos3{ 0, 0, 26 } + heightOffset;
+                    World::Pos3 bbSize = World::Pos3{ 30, 30, 1 };
+
+                    paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+
+                    session.addToPlotListTrackRoadAddition(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalSE3), 1, heightOffset, bbOffset, bbSize);
+                    session.attachToPrevious(imageTranslucentBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalCanopyTranslucentSE3), { 0, 0 });
                     break;
+                }
             }
         }
         else
@@ -257,8 +287,17 @@ namespace OpenLoco::Paint
             switch (seqIndex)
             {
                 case 0:
-                    paintTrainStationStyle0DiagonalTrack0NE(session, elStation, imageBase, imageTranslucentBase);
+                {
+                    // paintTrainStationStyle0DiagonalTrack0NE(session, elStation, imageBase, imageTranslucentBase);
+                    World::Pos3 bbOffset = World::Pos3{ 2, 2, 8 } + heightOffset;
+                    World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
+
+                    paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+
+                    session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE0), heightOffset, bbOffset, bbSize);
+
                     break;
+                }
                 case 1:
                 {
                     // paintTrainStationStyle0DiagonalTrack1NE(session, elStation, imageBase, imageTranslucentBase);
@@ -268,8 +307,8 @@ namespace OpenLoco::Paint
                     session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE1), heightOffset, platformBbOffset, platformBbSize);
 
                     // Cargo (back)
-                    paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
-                    // paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    //paintStationCargo(session, elStation, cargoFlags[0], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+                    //paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
 
                     // Cargo (front)
                     paintStationCargo(session, elStation, cargoFlags[2], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
@@ -287,14 +326,23 @@ namespace OpenLoco::Paint
                     // paintTrainStationStyle0DiagonalTrack2NE(session, elStation, imageBase, imageTranslucentBase);
                     World::Pos3 bbOffset = World::Pos3{ 2, 2, 8 } + heightOffset;
                     World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
-                    session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE3), heightOffset, bbOffset, bbSize);
 
                     paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), bbOffset, bbSize);
+
+                    session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE3), heightOffset, bbOffset, bbSize);
                     break;
                 }
                 case 3:
-                    paintTrainStationStyle0DiagonalTrack3NE(session, elStation, imageBase, imageTranslucentBase);
+                {
+                    // paintTrainStationStyle0DiagonalTrack3NE(session, elStation, imageBase, imageTranslucentBase);
+                    World::Pos3 bbOffset = World::Pos3{ 2, 2, 8 } + heightOffset;
+                    World::Pos3 bbSize = World::Pos3{ 2, 2, 3 };
+
+                    paintStationCargo(session, elStation, cargoFlags[1], 0xFFFFFFFF, cargoOffsets, elStation.baseHeight(), platformBbOffset, platformBbSize);
+
+                    session.addToPlotList4FD150(imageBase.withIndexOffset(TrainStation::ImageIds::Style0::diagonalNE3), heightOffset, bbOffset, bbSize);
                     break;
+                }
             }
         }
     }
